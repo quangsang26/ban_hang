@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chi tiết sản phẩm - STM Fashion</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --text: #1b1b1b;
+      --muted: #666;
+      --line: #ececec;
+      --soft: #f7f7f7;
+      --dark: #111;
+      --shadow: 0 14px 36px rgba(0,0,0,0.08);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 18px;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: #fff;
+      line-height: 1.5;
+    }
+
+    a { text-decoration: none; color: inherit; }
+    img { width: 100%; display: block; }
+    button, input { font: inherit; border: none; }
+    button { cursor: pointer; }
+    .container { width: min(1240px, 92%); margin: 0 auto; }
+
+    .topbar {
+      background: #111;
+      color: #fff;
+      font-size: 14px;
+      padding: 10px 0;
+      text-align: center;
+      letter-spacing: 0.3px;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(255,255,255,0.96);
+      border-bottom: 1px solid #eee;
+      backdrop-filter: blur(8px);
+    }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 18px 0;
+    }
+
+    .logo {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      font-size: 15px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .nav-icons {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .icon-btn {
+      width: 44px;
+      height: 44px;
+      border: 1px solid #ddd;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+      font-size: 18px;
+    }
+
+    .breadcrumb {
+      padding: 18px 0;
+      color: #666;
+      font-size: 14px;
+    }
+
+    .breadcrumb a:hover {
+      color: #111;
+    }
+
+    .product-section {
+      padding: 12px 0 72px;
+    }
+
+    .product-layout {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 34px;
+      align-items: start;
+    }
+
+    .gallery-card,
+    .detail-card,
+    .related-card,
+    .state-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.03);
+    }
+
+    .gallery-card {
+      padding: 18px;
+    }
+
+    .main-image-wrap {
+      position: relative;
+      overflow: hidden;
+      border-radius: 24px;
+      background: linear-gradient(180deg, #fafafa, #f2f2f2);
+      aspect-ratio: 4 / 5;
+      margin-bottom: 14px;
+    }
+
+    .main-image-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .main-badges {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      z-index: 2;
+    }
+
+    .badge {
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: #111;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+    }
+
+    .badge.light {
+      background: rgba(255,255,255,0.96);
+      color: #111;
+    }
+
+    .thumb-list {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+    }
+
+    .thumb-btn {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      overflow: hidden;
+      background: #fff;
+      aspect-ratio: 4 / 5;
+      transition: 0.2s ease;
+      padding: 0;
+    }
+
+    .thumb-btn.active {
+      border-color: #111;
+      box-shadow: inset 0 0 0 1px #111;
+    }
+
+    .thumb-btn img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .detail-card {
+      padding: 28px;
+    }
+
+    .product-meta-top {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      letter-spacing: 0.2px;
+    }
+
+    .product-title {
+      font-size: clamp(30px, 4vw, 42px);
+      line-height: 1.15;
+      margin-bottom: 12px;
+    }
+
+    .product-sub {
+      color: var(--muted);
+      font-size: 15px;
+      margin-bottom: 18px;
+    }
+
+    .price-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .price-current {
+      font-size: 32px;
+      font-weight: 700;
+    }
+
+    .price-old {
+      color: #999;
+      text-decoration: line-through;
+      font-size: 17px;
+    }
+
+    .product-desc {
+      color: #4f4f4f;
+      font-size: 16px;
+      margin-bottom: 24px;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--line);
+      margin: 22px 0;
+    }
+
+    .block {
+      margin-bottom: 20px;
+    }
+
+    .block-title {
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      letter-spacing: 0.4px;
+    }
+
+    .option-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .option-btn {
+      padding: 11px 16px;
+      border-radius: 999px;
+      border: 1px solid #ddd;
+      background: #fff;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .option-btn.active {
+      background: #111;
+      color: #fff;
+      border-color: #111;
+    }
+
+    .quantity-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .qty-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .qty-btn {
+      width: 42px;
+      height: 42px;
+      border: 1px solid #ddd;
+      border-radius: 999px;
+      background: #fff;
+      font-size: 18px;
+    }
+
+    .qty-input {
+      width: 84px;
+      text-align: center;
+      border: 1px solid #ddd;
+      border-radius: 999px;
+      padding: 11px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .stock-text {
+      font-size: 14px;
+      font-weight: 700;
+      color: #067647;
+    }
+
+    .action-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    .btn {
+      padding: 14px 24px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 15px;
+      transition: 0.25s ease;
+    }
+
+    .btn-primary {
+      background: #111;
+      color: #fff;
+      flex: 1;
+    }
+
+    .btn-secondary {
+      background: #f4f4f4;
+      color: #111;
+      flex: 1;
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #111;
+      border: 1px solid #ddd;
+    }
+
+    .btn-primary:hover,
+    .btn-secondary:hover,
+    .btn-outline:hover {
+      transform: translateY(-2px);
+    }
+
+    .info-box {
+      margin-top: 24px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      background: #fafafa;
+    }
+
+    .info-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 12px 0;
+      border-bottom: 1px solid #ececec;
+      font-size: 14px;
+    }
+
+    .info-item:last-child {
+      border-bottom: none;
+    }
+
+    .info-item span:first-child {
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .related-section {
+      padding: 0 0 76px;
+    }
+
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+
+    .section-title {
+      font-size: 34px;
+      margin-bottom: 8px;
+    }
+
+    .section-desc {
+      color: var(--muted);
+      max-width: 700px;
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 22px;
+    }
+
+    .product-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      background: #fff;
+      transition: 0.25s ease;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.03);
+    }
+
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 18px 36px rgba(0,0,0,0.08);
+    }
+
+    .product-thumb {
+      position: relative;
+      background: linear-gradient(180deg, #fafafa, #f2f2f2);
+      height: 320px;
+      overflow: hidden;
+    }
+
+    .product-thumb img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .product-card:hover .product-thumb img {
+      transform: scale(1.04);
+    }
+
+    .product-info {
+      padding: 18px;
+    }
+
+    .product-name {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      min-height: 48px;
+      line-height: 1.4;
+    }
+
+    .product-meta {
+      color: #777;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .product-price {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .card-btn {
+      width: 100%;
+      border-radius: 999px;
+      padding: 12px;
+      font-weight: 700;
+      background: #111;
+      color: #fff;
+    }
+
+    .state-card {
+      padding: 36px;
+      text-align: center;
+    }
+
+    .state-title {
+      font-size: 26px;
+      margin-bottom: 10px;
+    }
+
+    .state-desc {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    footer {
+      background: #111;
+      color: #fff;
+      padding: 56px 0 30px;
+      margin-top: 40px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+
+    .footer-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .footer-text,
+    .footer-link {
+      color: rgba(255,255,255,0.78);
+      margin-bottom: 10px;
+      display: block;
+      font-size: 14px;
+    }
+
+    .copyright {
+      border-top: 1px solid rgba(255,255,255,0.12);
+      padding-top: 18px;
+      color: rgba(255,255,255,0.65);
+      font-size: 14px;
+      text-align: center;
+    }
+
+    @media (max-width: 1120px) {
+      .product-layout { grid-template-columns: 1fr; }
+      .related-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .thumb-list { grid-template-columns: repeat(3, 1fr); }
+      .related-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .product-thumb { height: 360px; }
+      .action-row { flex-direction: column; }
+      .btn-primary, .btn-secondary { width: 100%; }
+      .section-title { font-size: 28px; }
+      .product-title { font-size: 32px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">Miễn phí vận chuyển cho đơn hàng từ 999.000đ • Đổi trả trong 7 ngày</div>
+
+  <header>
+    <div class="container navbar">
+      <div class="logo"><a href="index.html">STM</a></div>
+
+      <nav class="nav-links">
+        <a href="index.html">Trang chủ</a>
+        <a href="#">Sản phẩm mới</a>
+        <a href="#">Áo nam</a>
+        <a href="#">Quần nam</a>
+        <a href="#">Bộ sưu tập</a>
+        <a href="#">Liên hệ</a>
+      </nav>
+
+      <div class="nav-icons">
+        <button class="icon-btn" title="Tìm kiếm">🔍</button>
+        <div id="auth-area"></div>
+        <button class="icon-btn" onclick="goToCart()" title="Giỏ hàng">🛒</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="breadcrumb">
+      <a href="index.html">Trang chủ</a> / <span id="breadcrumb-name">Chi tiết sản phẩm</span>
+    </div>
+
+    <section class="product-section">
+      <div id="product-detail" class="state-card">
+        <div class="state-title">Đang tải chi tiết sản phẩm...</div>
+        <div class="state-desc">Vui lòng chờ trong giây lát.</div>
+      </div>
+    </section>
+
+    <section class="related-section">
+      <div class="section-heading">
+        <div>
+          <h2 class="section-title">Sản phẩm liên quan</h2>
+          <p class="section-desc">Khám phá thêm các sản phẩm cùng phong cách để hoàn thiện outfit của bạn.</p>
+        </div>
+      </div>
+
+      <div class="related-grid" id="related-products">
+        <div class="state-card">
+          <div class="state-title">Đang tải sản phẩm liên quan...</div>
+          <div class="state-desc">Vui lòng chờ trong giây lát.</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-title">STM Fashion</div>
+          <div class="footer-text">Website cửa hàng thời trang nam hiện đại, sang trọng, được xây dựng phục vụ đồ án tốt nghiệp kỹ thuật phần mềm.</div>
+          <div class="footer-text">Hotline: 0909 123 456</div>
+          <div class="footer-text">Email: support@stmfashion.vn</div>
+        </div>
+
+        <div>
+          <div class="footer-title">Về STM</div>
+          <a class="footer-link" href="#">Giới thiệu</a>
+          <a class="footer-link" href="#">Câu chuyện thương hiệu</a>
+          <a class="footer-link" href="#">Hệ thống cửa hàng</a>
+        </div>
+
+        <div>
+          <div class="footer-title">Chính sách</div>
+          <a class="footer-link" href="#">Chính sách giao hàng</a>
+          <a class="footer-link" href="#">Đổi trả</a>
+          <a class="footer-link" href="#">Bảo mật thông tin</a>
+        </div>
+
+        <div>
+          <div class="footer-title">Hỗ trợ</div>
+          <a class="footer-link" href="#">Liên hệ</a>
+          <a class="footer-link" href="#">Hướng dẫn mua hàng</a>
+          <a class="footer-link" href="#">Theo dõi đơn hàng</a>
+        </div>
+      </div>
+
+      <div class="copyright">© 2026 STM Fashion. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <script src="js/auth-ui.js"></script>
+  <script>
+    const API_URL = "http://localhost:5000/api/products";
+    const productContainer = document.getElementById("product-detail");
+    const relatedContainer = document.getElementById("related-products");
+    const breadcrumbName = document.getElementById("breadcrumb-name");
+
+    let currentProduct = null;
+    let currentImages = [];
+    let selectedSize = "";
+    let selectedColor = "";
+    let quantity = 1;
+    let currentMainImage = "";
+
+    function getProductIdFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("id");
+    }
+
+    function formatPrice(value) {
+      return Number(value || 0).toLocaleString("vi-VN") + "đ";
+    }
+
+    function getImageUrl(path) {
+      if (!path) {
+        return "https://via.placeholder.com/700x900?text=STM+Fashion";
+      }
+
+      if (path.startsWith("http")) {
+        return path;
+      }
+
+      if (path.startsWith("/uploads/")) {
+        return "http://localhost:5000" + path;
+      }
+
+      return path;
+    }
+
+    function goToCart() {
+      window.location.href = "cart.html";
+    }
+
+    function changeMainImage(url, index) {
+      const mainImage = document.getElementById("main-product-image");
+      if (!mainImage) return;
+
+      currentMainImage = url;
+      mainImage.src = url;
+
+      document.querySelectorAll(".thumb-btn").forEach((thumb, i) => {
+        if (i === index) {
+          thumb.classList.add("active");
+        } else {
+          thumb.classList.remove("active");
+        }
+      });
+    }
+
+    function setQuantity(type) {
+      const input = document.getElementById("qty-input");
+      let current = Number(input.value) || 1;
+
+      if (type === "minus" && current > 1) current--;
+      if (type === "plus") current++;
+
+      input.value = current;
+      quantity = current;
+    }
+
+    function setQuantityFromInput(value) {
+      quantity = Math.max(1, Number(value) || 1);
+      document.getElementById("qty-input").value = quantity;
+    }
+
+    function renderOptions(list, type) {
+      const uniqueValues = [...new Set(
+        list.map(item => item[type]).filter(Boolean)
+      )];
+
+      if (uniqueValues.length === 0) {
+        return `<div style="color:#666;">Không có dữ liệu ${type === "size" ? "size" : "màu"}.</div>`;
+      }
+
+      return uniqueValues.map(value => `
+        <button
+          class="option-btn ${type === "size" ? (selectedSize === value ? "active" : "") : (selectedColor === value ? "active" : "")}"
+          onclick="selectOption('${type}', '${String(value).replace(/'/g, "\\'")}')"
+        >
+          ${value}
+        </button>
+      `).join("");
+    }
+
+    function selectOption(type, value) {
+      if (type === "size") selectedSize = value;
+      if (type === "color") selectedColor = value;
+
+      document.getElementById("size-options").innerHTML = renderOptions(currentProduct.inventory || [], "size");
+      document.getElementById("color-options").innerHTML = renderOptions(currentProduct.inventory || [], "color");
+      updateStockText();
+    }
+
+    function updateStockText() {
+      const stockText = document.getElementById("stock-text");
+      if (!stockText || !currentProduct) return;
+
+      const inventory = currentProduct.inventory || [];
+      let matched = inventory;
+
+      if (selectedSize) {
+        matched = matched.filter(item => item.size === selectedSize);
+      }
+
+      if (selectedColor) {
+        matched = matched.filter(item => item.color === selectedColor);
+      }
+
+      if (matched.length === 0) {
+        stockText.textContent = "Vui lòng chọn size/màu phù hợp.";
+        stockText.style.color = "#b54708";
+        return;
+      }
+
+      const totalQty = matched.reduce((sum, item) => sum + Number(item.quantity || 0), 0);
+
+      if (totalQty > 0) {
+        stockText.textContent = "Còn hàng: " + totalQty + " sản phẩm";
+        stockText.style.color = "#067647";
+      } else {
+        stockText.textContent = "Hết hàng";
+        stockText.style.color = "#b42318";
+      }
+    }
+
+    async function addToCart(productId) {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        const currentUrl = window.location.pathname.split("/").pop() + window.location.search;
+        window.location.href = "login.html?redirect=" + encodeURIComponent(currentUrl);
+        return;
+      }
+
+      try {
+        const res = await fetch("http://localhost:5000/api/cart", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+          },
+          body: JSON.stringify({
+            product_id: productId,
+            quantity: quantity,
+            size: selectedSize || null,
+            color: selectedColor || null
+          })
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          alert("Đã thêm vào giỏ hàng");
+        } else {
+          alert(data.message || "Thêm giỏ hàng thất bại");
+        }
+      } catch (error) {
+        console.error(error);
+        alert("Lỗi kết nối giỏ hàng");
+      }
+    }
+
+    function renderProduct(product) {
+      currentProduct = product;
+      currentImages = (product.images && product.images.length > 0)
+        ? product.images
+        : [{ image_url: "https://via.placeholder.com/700x900?text=STM+Fashion", is_main: true }];
+
+      const mainImageObj = currentImages.find(img => img.is_main) || currentImages[0];
+      const mainImageUrl = getImageUrl(mainImageObj.image_url);
+      currentMainImage = mainImageUrl;
+
+      const price = Number(product.price || 0);
+      const discount = Number(product.discount_percent || 0);
+      const finalPrice = discount > 0 ? price - (price * discount / 100) : price;
+
+      breadcrumbName.textContent = product.name || "Chi tiết sản phẩm";
+
+      productContainer.className = "";
+      productContainer.innerHTML = `
+        <div class="product-layout">
+          <div class="gallery-card">
+            <div class="main-image-wrap">
+              <div class="main-badges">
+                ${product.is_new ? '<span class="badge">Mới</span>' : ""}
+                ${discount > 0 ? `<span class="badge light">-${discount}%</span>` : ""}
+              </div>
+              <img
+                id="main-product-image"
+                src="${mainImageUrl}"
+                alt="${product.name}"
+                onerror="this.src='https://via.placeholder.com/700x900?text=STM+Fashion'"
+              />
+            </div>
+
+            <div class="thumb-list">
+              ${currentImages.map((img, index) => {
+                const url = getImageUrl(img.image_url);
+                return `
+                  <button class="thumb-btn ${index === 0 ? "active" : ""}" onclick="changeMainImage('${url}', ${index})">
+                    <img src="${url}" alt="Ảnh ${index + 1}" onerror="this.src='https://via.placeholder.com/400x500?text=STM+Fashion'" />
+                  </button>
+                `;
+              }).join("")}
+            </div>
+          </div>
+
+          <div class="detail-card">
+            <div class="product-meta-top">
+              STM • ${product.category_name || "Sản phẩm"} ${product.brand ? "• " + product.brand : ""}
+            </div>
+
+            <h1 class="product-title">${product.name}</h1>
+            <div class="product-sub">Thiết kế hiện đại, dễ phối đồ và phù hợp nhiều tình huống sử dụng.</div>
+
+            <div class="price-row">
+              <span class="price-current">${formatPrice(finalPrice)}</span>
+              ${discount > 0 ? `<span class="price-old">${formatPrice(price)}</span>` : ""}
+            </div>
+
+            <div class="product-desc">
+              ${product.description || "Sản phẩm thời trang nam STM với phong cách hiện đại, tối giản và sang trọng."}
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="block">
+              <div class="block-title">Chọn size</div>
+              <div class="option-list" id="size-options"></div>
+            </div>
+
+            <div class="block">
+              <div class="block-title">Chọn màu</div>
+              <div class="option-list" id="color-options"></div>
+            </div>
+
+            <div class="block">
+              <div class="block-title">Số lượng</div>
+              <div class="quantity-row">
+                <div class="qty-wrap">
+                  <button class="qty-btn" onclick="setQuantity('minus')">-</button>
+                  <input id="qty-input" class="qty-input" type="number" min="1" value="1" oninput="setQuantityFromInput(this.value)" />
+                  <button class="qty-btn" onclick="setQuantity('plus')">+</button>
+                </div>
+                <div class="stock-text" id="stock-text">Đang kiểm tra tồn kho...</div>
+              </div>
+            </div>
+
+            <div class="action-row">
+              <button class="btn btn-primary" onclick="addToCart(${product.id})">Thêm vào giỏ hàng</button>
+              <button class="btn btn-secondary" onclick="goToCart()">Xem giỏ hàng</button>
+              <button class="btn btn-outline" onclick="window.location.href='index.html'">Quay lại</button>
+            </div>
+
+            <div class="info-box">
+              <div class="info-item">
+                <span>Chất liệu</span>
+                <span>${product.material || "Đang cập nhật"}</span>
+              </div>
+              <div class="info-item">
+                <span>Giới tính</span>
+                <span>${product.gender || "Nam"}</span>
+              </div>
+              <div class="info-item">
+                <span>Thương hiệu</span>
+                <span>${product.brand || "STM"}</span>
+              </div>
+              <div class="info-item">
+                <span>Thanh toán</span>
+                <span>COD / MoMo / ZaloPay</span>
+              </div>
+              <div class="info-item">
+                <span>Đổi trả</span>
+                <span>Hỗ trợ đổi trả trong 7 ngày</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      document.getElementById("size-options").innerHTML = renderOptions(product.inventory || [], "size");
+      document.getElementById("color-options").innerHTML = renderOptions(product.inventory || [], "color");
+      updateStockText();
+    }
+
+    async function loadProductDetail() {
+      const id = getProductIdFromUrl();
+
+      if (!id) {
+        productContainer.className = "state-card";
+        productContainer.innerHTML = `
+          <div class="state-title">Không tìm thấy id sản phẩm</div>
+          <div class="state-desc">URL hiện tại chưa có tham số id.</div>
+        `;
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_URL}/${id}`);
+        const data = await res.json();
+
+        if (!data.success) {
+          productContainer.className = "state-card";
+          productContainer.innerHTML = `
+            <div class="state-title">Không tải được sản phẩm</div>
+            <div class="state-desc">${data.message || "Có lỗi xảy ra."}</div>
+          `;
+          return;
+        }
+
+        renderProduct(data.data);
+      } catch (error) {
+        console.error(error);
+        productContainer.className = "state-card";
+        productContainer.innerHTML = `
+          <div class="state-title">Lỗi kết nối API</div>
+          <div class="state-desc">Không thể lấy dữ liệu chi tiết sản phẩm từ backend.</div>
+        `;
+      }
+    }
+
+    function createRelatedCard(product) {
+      const image = getImageUrl(product.image_url);
+      const price = Number(product.price || 0);
+      const discount = Number(product.discount_percent || 0);
+      const finalPrice = discount > 0 ? price - (price * discount / 100) : price;
+
+      const card = document.createElement("article");
+      card.className = "product-card";
+
+      card.innerHTML = `
+        <div class="product-thumb">
+          <img src="${image}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/700x900?text=STM+Fashion'" />
+        </div>
+
+        <div class="product-info">
+          <div class="product-name">${product.name}</div>
+          <div class="product-meta">STM • ${product.category_name || "Sản phẩm"}</div>
+          <div class="product-price">${formatPrice(finalPrice)}</div>
+          <button class="card-btn" onclick="window.location.href='product.html?id=${product.id}'">Xem chi tiết</button>
+        </div>
+      `;
+
+      return card;
+    }
+
+    async function loadRelatedProducts() {
+      try {
+        const currentId = Number(getProductIdFromUrl());
+        const res = await fetch(API_URL);
+        const data = await res.json();
+
+        if (!data.success) {
+          relatedContainer.innerHTML = `
+            <div class="state-card">
+              <div class="state-title">Không tải được sản phẩm liên quan</div>
+              <div class="state-desc">Có lỗi xảy ra khi lấy dữ liệu.</div>
+            </div>
+          `;
+          return;
+        }
+
+        const products = (data.data || []).filter(item => Number(item.id) !== currentId).slice(0, 4);
+
+        if (products.length === 0) {
+          relatedContainer.innerHTML = `
+            <div class="state-card">
+              <div class="state-title">Chưa có sản phẩm liên quan</div>
+              <div class="state-desc">Hãy thêm nhiều sản phẩm hơn trong hệ thống.</div>
+            </div>
+          `;
+          return;
+        }
+
+        relatedContainer.innerHTML = "";
+        products.forEach(product => {
+          relatedContainer.appendChild(createRelatedCard(product));
+        });
+      } catch (error) {
+        console.error(error);
+        relatedContainer.innerHTML = `
+          <div class="state-card">
+            <div class="state-title">Lỗi tải sản phẩm liên quan</div>
+            <div class="state-desc">Không thể kết nối đến backend.</div>
+          </div>
+        `;
+      }
+    }
+
+    loadProductDetail();
+    loadRelatedProducts();
+  </script>
+</body>
+</html>

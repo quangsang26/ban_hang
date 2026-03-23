@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tài khoản của tôi - STM Fashion</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --text: #1b1b1b;
+      --muted: #666;
+      --line: #ececec;
+      --soft: #f7f7f7;
+      --dark: #111;
+      --shadow: 0 14px 36px rgba(0,0,0,0.08);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --danger: #b42318;
+      --success: #067647;
+      --blue: #175cd3;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: #f7f7f7;
+      line-height: 1.5;
+    }
+
+    a { text-decoration: none; color: inherit; }
+    button, input { font: inherit; border: none; }
+    button { cursor: pointer; }
+    .container { width: min(1180px, 92%); margin: 0 auto; }
+
+    header {
+      background: rgba(255,255,255,0.96);
+      border-bottom: 1px solid #eee;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(8px);
+    }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 18px 0;
+    }
+
+    .logo {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .header-btn {
+      padding: 12px 18px;
+      border-radius: 999px;
+      border: 1px solid #ddd;
+      background: #fff;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .header-btn.dark {
+      background: #111;
+      color: #fff;
+      border-color: #111;
+    }
+
+    .page-section {
+      min-height: calc(100vh - 160px);
+      display: grid;
+      align-items: center;
+      padding: 42px 0 54px;
+    }
+
+    .page-layout {
+      display: grid;
+      grid-template-columns: 1fr 560px;
+      gap: 28px;
+      align-items: start;
+    }
+
+    .page-intro {
+      padding-right: 10px;
+    }
+
+    .intro-badge {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid #ececec;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.03);
+    }
+
+    .intro-title {
+      font-size: clamp(36px, 5vw, 60px);
+      line-height: 1.06;
+      margin-bottom: 18px;
+    }
+
+    .intro-desc {
+      font-size: 18px;
+      color: #444;
+      max-width: 560px;
+      margin-bottom: 22px;
+    }
+
+    .intro-mini {
+      color: var(--muted);
+      font-size: 15px;
+      max-width: 560px;
+    }
+
+    .page-card {
+      background: #fff;
+      border: 1px solid #ececec;
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      padding: 32px;
+    }
+
+    .card-badge {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: #f4f4f4;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .card-title {
+      font-size: 34px;
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+
+    .card-desc {
+      color: var(--muted);
+      margin-bottom: 22px;
+      font-size: 15px;
+    }
+
+    .message {
+      display: none;
+      margin-bottom: 16px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .message.success {
+      display: block;
+      background: #edf9f0;
+      color: #166534;
+      border: 1px solid #b7ebc6;
+    }
+
+    .message.error {
+      display: block;
+      background: #fff1f1;
+      color: #b42318;
+      border: 1px solid #f3c5c5;
+    }
+
+    .profile-box {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+      padding: 16px;
+      border: 1px solid #efefef;
+      border-radius: 22px;
+      background: #fafafa;
+    }
+
+    .avatar {
+      width: 58px;
+      height: 58px;
+      border-radius: 999px;
+      background: #111;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .profile-name {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .profile-meta {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .role-pill {
+      display: inline-block;
+      margin-top: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      background: #eff8ff;
+      color: var(--blue);
+    }
+
+    .role-pill.customer {
+      background: #edf9f0;
+      color: var(--success);
+    }
+
+    .section-block {
+      border-top: 1px solid #f0f0f0;
+      padding-top: 18px;
+      margin-top: 18px;
+    }
+
+    .section-block:first-of-type {
+      border-top: none;
+      padding-top: 0;
+      margin-top: 0;
+    }
+
+    .section-title {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .section-desc {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+
+    .info-list {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .info-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 12px 14px;
+      border: 1px solid #efefef;
+      border-radius: 16px;
+      background: #fafafa;
+      font-size: 14px;
+    }
+
+    .info-item span:first-child {
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .form-group {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .form-group.full {
+      grid-column: 1 / -1;
+    }
+
+    .label {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .input {
+      border: 1px solid #ddd;
+      border-radius: 18px;
+      padding: 14px 16px;
+      font-size: 15px;
+      outline: none;
+      background: #fff;
+      transition: 0.2s ease;
+    }
+
+    .input:focus {
+      border-color: #111;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px 22px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 15px;
+      transition: 0.25s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      background: #111;
+      color: #fff;
+    }
+
+    .btn-secondary {
+      background: #f4f4f4;
+      color: #111;
+    }
+
+    .btn-danger {
+      background: #fff1f1;
+      color: #b42318;
+    }
+
+    .action-grid {
+      display: grid;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .login-required {
+      text-align: center;
+      padding: 16px 0 4px;
+    }
+
+    .login-required-title {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .login-required-desc {
+      color: var(--muted);
+      margin-bottom: 18px;
+      font-size: 15px;
+    }
+
+    footer {
+      background: #fff;
+      border-top: 1px solid #ececec;
+    }
+
+    .footer-mini {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      padding: 18px 0 22px;
+      color: #555;
+      font-size: 14px;
+    }
+
+    .footer-mini strong {
+      color: #111;
+    }
+
+    @media (max-width: 980px) {
+      .page-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .page-intro {
+        padding-right: 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .page-card {
+        padding: 24px;
+      }
+
+      .card-title {
+        font-size: 28px;
+      }
+
+      .intro-title {
+        font-size: 40px;
+      }
+
+      .header-actions {
+        gap: 8px;
+      }
+
+      .header-btn {
+        padding: 10px 14px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-mini {
+        flex-direction: column;
+      }
+
+      .info-item {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container navbar">
+      <div class="logo"><a href="index.html">STM</a></div>
+
+      <div class="header-actions">
+        <button class="header-btn" onclick="window.location.href='orders.html'">Đơn hàng</button>
+        <button class="header-btn" onclick="window.location.href='index.html'">Về trang chủ</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-section">
+    <div class="container">
+      <div class="page-layout">
+        <div class="page-intro">
+          <div class="intro-badge">STM Fashion</div>
+          <h1 class="intro-title">Quản lý tài khoản thật gọn và dễ dùng</h1>
+          <p class="intro-desc">
+            Xem thông tin cá nhân, cập nhật hồ sơ và đổi mật khẩu trong một giao diện tối giản, đồng bộ với phần đăng nhập và đăng ký.
+          </p>
+          <p class="intro-mini">
+            Trang này chỉ giữ lại những phần cần thiết để thao tác nhanh hơn và nhìn sạch hơn khi demo.
+          </p>
+        </div>
+
+        <div class="page-card" id="account-page">
+          <div class="card-badge">STM Fashion</div>
+          <h1 class="card-title">Tài khoản của tôi</h1>
+          <p class="card-desc">Đang tải thông tin tài khoản...</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container footer-mini">
+      <div>© 2026 <strong>STM Fashion</strong>. All rights reserved.</div>
+      <div>Email hỗ trợ: <strong>qs26k5@gmail.com</strong></div>
+      <div>Hotline: <strong>0834227889</strong></div>
+    </div>
+  </footer>
+
+  <script>
+    const API_PROFILE = "http://localhost:5000/api/user/profile";
+    const accountPage = document.getElementById("account-page");
+
+    function getToken() {
+      return localStorage.getItem("token");
+    }
+
+    function getStoredUser() {
+      try {
+        return JSON.parse(localStorage.getItem("user")) || null;
+      } catch (error) {
+        return null;
+      }
+    }
+
+    function saveUserToLocal(user) {
+      const oldUser = getStoredUser() || {};
+      localStorage.setItem("user", JSON.stringify({ ...oldUser, ...user }));
+    }
+
+    function logoutNow() {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      alert("Bạn đã đăng xuất");
+      window.location.href = "index.html";
+    }
+
+    function getInitial(nameOrEmail) {
+      const text = (nameOrEmail || "U").trim();
+      return text.charAt(0).toUpperCase() || "U";
+    }
+
+    function showMessage(targetId, type, text) {
+      const box = document.getElementById(targetId);
+      if (!box) return;
+      box.className = "message " + type;
+      box.textContent = text;
+    }
+
+    function clearMessage(targetId) {
+      const box = document.getElementById(targetId);
+      if (!box) return;
+      box.className = "message";
+      box.textContent = "";
+    }
+
+    function renderLoginRequired() {
+      accountPage.innerHTML = `
+        <div class="card-badge">STM Fashion</div>
+        <h1 class="card-title">Tài khoản của tôi</h1>
+        <p class="card-desc">Bạn cần đăng nhập để xem và quản lý tài khoản.</p>
+
+        <div class="login-required">
+          <div class="login-required-title">Bạn chưa đăng nhập</div>
+          <div class="login-required-desc">Vui lòng đăng nhập để cập nhật hồ sơ và đổi mật khẩu.</div>
+          <button class="btn btn-primary" onclick="window.location.href='login.html?redirect=account.html'">Đăng nhập ngay</button>
+        </div>
+      `;
+    }
+
+    function renderAccount(user) {
+      const fullName = user.full_name || "Người dùng STM";
+      const email = user.email || "Chưa có email";
+      const phone = user.phone || "";
+      const role = user.role || "customer";
+      const createdAtText = user.created_at
+        ? new Date(user.created_at).toLocaleString("vi-VN")
+        : "Đã đăng ký trên hệ thống";
+
+      accountPage.innerHTML = `
+        <div class="card-badge">STM Fashion</div>
+        <h1 class="card-title">Tài khoản của tôi</h1>
+        <p class="card-desc">Xem thông tin cá nhân, cập nhật hồ sơ và đổi mật khẩu.</p>
+
+        <div class="profile-box">
+          <div class="avatar">${getInitial(fullName || email)}</div>
+          <div>
+            <div class="profile-name">${fullName}</div>
+            <div class="profile-meta">${email}</div>
+            <span class="role-pill ${role === "admin" ? "" : "customer"}">
+              ${role === "admin" ? "Quản trị viên" : "Khách hàng"}
+            </span>
+          </div>
+        </div>
+
+        <div class="section-block">
+          <div class="section-title">Thông tin hiện tại</div>
+          <div class="section-desc">Những thông tin đang lưu trên hệ thống.</div>
+
+          <div class="info-list">
+            <div class="info-item">
+              <span>Họ và tên</span>
+              <strong>${fullName}</strong>
+            </div>
+            <div class="info-item">
+              <span>Email</span>
+              <strong>${email}</strong>
+            </div>
+            <div class="info-item">
+              <span>Số điện thoại</span>
+              <strong>${phone || "Chưa cập nhật"}</strong>
+            </div>
+            <div class="info-item">
+              <span>Ngày tham gia</span>
+              <strong>${createdAtText}</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-block">
+          <div class="section-title">Cập nhật thông tin</div>
+          <div class="section-desc">Chỉnh sửa họ tên và số điện thoại của bạn.</div>
+
+          <div id="profileMessage" class="message"></div>
+
+          <form id="profileForm">
+            <div class="form-grid">
+              <div class="form-group full">
+                <label class="label" for="full_name">Họ và tên</label>
+                <input class="input" id="full_name" type="text" value="${fullName}" required />
+              </div>
+
+              <div class="form-group">
+                <label class="label" for="email">Email</label>
+                <input class="input" id="email" type="email" value="${email}" disabled />
+              </div>
+
+              <div class="form-group">
+                <label class="label" for="phone">Số điện thoại</label>
+                <input class="input" id="phone" type="text" value="${phone}" placeholder="Nhập số điện thoại" />
+              </div>
+            </div>
+
+            <button class="btn btn-primary" type="submit">Lưu thông tin</button>
+          </form>
+        </div>
+
+        <div class="section-block">
+          <div class="section-title">Đổi mật khẩu</div>
+          <div class="section-desc">Giữ an toàn cho tài khoản bằng cách đổi mật khẩu định kỳ.</div>
+
+          <div id="passwordMessage" class="message"></div>
+
+          <form id="passwordForm">
+            <div class="form-grid">
+              <div class="form-group full">
+                <label class="label" for="current_password">Mật khẩu hiện tại</label>
+                <input class="input" id="current_password" type="password" placeholder="Nhập mật khẩu hiện tại" required />
+              </div>
+
+              <div class="form-group">
+                <label class="label" for="new_password">Mật khẩu mới</label>
+                <input class="input" id="new_password" type="password" placeholder="Ít nhất 6 ký tự" required />
+              </div>
+
+              <div class="form-group">
+                <label class="label" for="confirm_password">Xác nhận mật khẩu mới</label>
+                <input class="input" id="confirm_password" type="password" placeholder="Nhập lại mật khẩu mới" required />
+              </div>
+            </div>
+
+            <button class="btn btn-secondary" type="submit">Đổi mật khẩu</button>
+          </form>
+        </div>
+
+        <div class="section-block">
+          <div class="section-title">Thao tác nhanh</div>
+          <div class="section-desc">Đi nhanh tới các khu vực quan trọng.</div>
+
+          <div class="action-grid">
+            <button class="btn btn-secondary" type="button" onclick="window.location.href='orders.html'">Xem đơn hàng</button>
+            <button class="btn btn-secondary" type="button" onclick="window.location.href='index.html'">Về trang chủ</button>
+            ${role === "admin" ? `<button class="btn btn-secondary" type="button" onclick="window.location.href='admin.html'">Vào trang admin</button>` : ""}
+            <button class="btn btn-danger" type="button" onclick="logoutNow()">Đăng xuất</button>
+          </div>
+        </div>
+      `;
+
+      bindProfileForm();
+      bindPasswordForm();
+    }
+
+    async function loadProfile() {
+      const token = getToken();
+
+      if (!token) {
+        renderLoginRequired();
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_PROFILE}/me`, {
+          headers: {
+            "Authorization": "Bearer " + token
+          }
+        });
+
+        const data = await res.json();
+
+        if (!data.success) {
+          throw new Error(data.message || "Không tải được thông tin tài khoản");
+        }
+
+        saveUserToLocal(data.data);
+        renderAccount(data.data);
+      } catch (error) {
+        console.error(error);
+        accountPage.innerHTML = `
+          <div class="card-badge">STM Fashion</div>
+          <h1 class="card-title">Tài khoản của tôi</h1>
+          <p class="card-desc">Có lỗi xảy ra khi tải dữ liệu.</p>
+
+          <div class="login-required">
+            <div class="login-required-title">Không tải được thông tin</div>
+            <div class="login-required-desc">${error.message}</div>
+            <button class="btn btn-primary" onclick="loadProfile()">Tải lại</button>
+          </div>
+        `;
+      }
+    }
+
+    function bindProfileForm() {
+      const form = document.getElementById("profileForm");
+      if (!form) return;
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        clearMessage("profileMessage");
+
+        const token = getToken();
+        const full_name = document.getElementById("full_name").value.trim();
+        const phone = document.getElementById("phone").value.trim();
+
+        if (!full_name) {
+          showMessage("profileMessage", "error", "Họ và tên không được để trống.");
+          return;
+        }
+
+        try {
+          const res = await fetch(`${API_PROFILE}/me`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer " + token
+            },
+            body: JSON.stringify({
+              full_name,
+              phone
+            })
+          });
+
+          const data = await res.json();
+
+          if (!data.success) {
+            throw new Error(data.message || "Cập nhật thất bại");
+          }
+
+          saveUserToLocal(data.data);
+          showMessage("profileMessage", "success", "Cập nhật thông tin thành công.");
+
+          setTimeout(() => {
+            loadProfile();
+          }, 700);
+        } catch (error) {
+          console.error(error);
+          showMessage("profileMessage", "error", error.message);
+        }
+      });
+    }
+
+    function bindPasswordForm() {
+      const form = document.getElementById("passwordForm");
+      if (!form) return;
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        clearMessage("passwordMessage");
+
+        const token = getToken();
+        const current_password = document.getElementById("current_password").value.trim();
+        const new_password = document.getElementById("new_password").value.trim();
+        const confirm_password = document.getElementById("confirm_password").value.trim();
+
+        if (!current_password || !new_password || !confirm_password) {
+          showMessage("passwordMessage", "error", "Vui lòng nhập đầy đủ thông tin đổi mật khẩu.");
+          return;
+        }
+
+        if (new_password.length < 6) {
+          showMessage("passwordMessage", "error", "Mật khẩu mới phải có ít nhất 6 ký tự.");
+          return;
+        }
+
+        if (new_password !== confirm_password) {
+          showMessage("passwordMessage", "error", "Mật khẩu xác nhận không khớp.");
+          return;
+        }
+
+        try {
+          const res = await fetch(`${API_PROFILE}/change-password`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer " + token
+            },
+            body: JSON.stringify({
+              current_password,
+              new_password,
+              confirm_password
+            })
+          });
+
+          const data = await res.json();
+
+          if (!data.success) {
+            throw new Error(data.message || "Đổi mật khẩu thất bại");
+          }
+
+          showMessage("passwordMessage", "success", "Đổi mật khẩu thành công.");
+          form.reset();
+        } catch (error) {
+          console.error(error);
+          showMessage("passwordMessage", "error", error.message);
+        }
+      });
+    }
+
+    loadProfile();
+  </script>
+</body>
+</html>
